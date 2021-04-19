@@ -1,6 +1,7 @@
 package main
 
 import (
+	"alta-store/config"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -19,10 +20,10 @@ func main() {
 	e.GET("/", hello)
 
 	// Start server
-	e.Logger.Fatal(e.Start(":1212"))
+	e.Logger.Fatal(e.Start(config.Env("APP_PORT")))
 }
 
 // Handler
 func hello(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, ACP-7!")
+	return c.String(http.StatusOK, config.Env("APP_NAME"))
 }
