@@ -21,9 +21,9 @@ Request :
 ```json 
 {
     "id" : "string, unique",
-	"category_id" : "int",
+    "category_id" : "int",
     "name" : "string",
-	"description" : "string",
+    "description" : "string",
     "price" : "long",
     "stock" : "integer"
 }
@@ -36,14 +36,14 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-          "id" : "string, unique",
-		  "category_id" : "int",
-		  "name" : "string",
-		  "description" : "string",
-		  "price" : "long",
-		  "stock" : "integer",
-         "createdAt" : "date",
-         "updatedAt" : "date"
+        "id" : "string, unique",
+        "category_id" : "int",
+        "name" : "string",
+        "description" : "string",
+        "price" : "long",
+        "stock" : "integer",
+        "createdAt" : "date",
+        "updatedAt" : "date"
      }
 }
 ```
@@ -63,14 +63,14 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-          "id" : "string, unique",
-		  "category_id" : "int",
-		  "name" : "string",
-		  "description" : "string",
-		  "price" : "long",
-		  "stock" : "integer",
-         "createdAt" : "date",
-         "updatedAt" : "date"
+        "id" : "string, unique",
+        "category_id" : "int",
+        "name" : "string",
+        "description" : "string",
+        "price" : "long",
+        "stock" : "integer",
+        "createdAt" : "date",
+        "updatedAt" : "date"
      }
 }
 ```
@@ -87,9 +87,9 @@ Request :
 
 ```json 
 {
-	"category_id" : "int",
+    "category_id" : "int",
     "name" : "string",
-	"description" : "string",
+    "description" : "string",
     "price" : "long",
     "stock" : "integer"
 }
@@ -102,14 +102,14 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "id" : "string, unique",
-		 "category_id" : "int",
-		 "name" : "string",
-		 "description" : "string",
-		 "price" : "long",
-		 "stock" : "integer",
-         "createdAt" : "date",
-         "updatedAt" : "date"
+        "id" : "string, unique",
+        "category_id" : "int",
+        "name" : "string",
+        "description" : "string",
+        "price" : "long",
+        "stock" : "integer",
+        "createdAt" : "date",
+        "updatedAt" : "date"
      }
 }
 ```
@@ -133,24 +133,24 @@ Response :
     "status" : "string",
     "data" : [
         {
-             "id" : "string, unique",
-			 "category_id" : "int",
-			 "name" : "string",
-			 "description" : "string",
-			 "price" : "long",
-			 "stock" : "integer",
-			 "createdAt" : "date",
-			 "updatedAt" : "date"
+            "id" : "string, unique",
+            "category_id" : "int",
+            "name" : "string",
+            "description" : "string",
+            "price" : "long",
+            "stock" : "integer",
+            "createdAt" : "date",
+            "updatedAt" : "date"
         },
         {
-             "id" : "string, unique",
-			 "category_id" : "int",
-			 "name" : "string",
-			 "description" : "string",
-			 "price" : "long",
-			 "stock" : "integer",
-			 "createdAt" : "date",
-			 "updatedAt" : "date"
+            "id" : "string, unique",
+            "category_id" : "int",
+            "name" : "string",
+            "description" : "string",
+            "price" : "long",
+            "stock" : "integer",
+            "createdAt" : "date",
+            "updatedAt" : "date"
          }
     ]
 }
