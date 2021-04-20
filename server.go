@@ -2,6 +2,8 @@ package main
 
 import (
 	"alta-store/config"
+	"alta-store/controllers"
+	"alta-store/lib/database"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -9,6 +11,7 @@ import (
 )
 
 func main() {
+	database.Connection()
 	// Echo instance
 	e := echo.New()
 
@@ -18,6 +21,8 @@ func main() {
 
 	// Routes
 	e.GET("/", hello)
+	e.GET("/users", controllers.GetUserControllers)
+	e.POST("/users", controllers.CreateUserController)
 
 	// Start server
 	e.Logger.Fatal(e.Start(config.Env("APP_PORT")))
