@@ -1,7 +1,7 @@
 package main
 
 import (
-	"alta-store/config"
+	"alta-store/configs"
 	"alta-store/lib/database"
 	"github.com/labstack/echo/v4"
 )
