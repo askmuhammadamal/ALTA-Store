@@ -2,7 +2,7 @@ package database
 
 import (
 	"alta-store/config"
-	"alta-store/models"
+	"alta-store/lib/database/migrations"
 	"fmt"
 
 	"gorm.io/driver/mysql"
@@ -12,19 +12,19 @@ import (
 var DB *gorm.DB
 
 func Connection() {
-	dsn := config.Env("DB_USERNAME") + ":" + config.Env("DB_PASSWORD") + "@tcp(" + config.Env("DB_HOST") + ":" + config.Env("DB_PORT") + ")/" + config.Env("DB_DATABASE") + "?charset=utf8&parseTime=True&loc=Local"
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", config.Env("DB_USERNAME"), config.Env("DB_PASSWORD"), config.Env("DB_HOST"), config.Env("DB_PORT"), config.Env("DB_DATABASE"))
+
 	var err error
-	fmt.Println(dsn)
+
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		panic("Failed to connect database")
 	}
 
-	//defer db.Close()
 	InitMigrate()
 }
 
 func InitMigrate() {
-	DB.AutoMigrate(&models.User{})
+	DB.AutoMigrate(&migrations.User{}, &migrations.Product{}, &migrations.Category{}, &migrations.Transaction{}, &migrations.DetailTransaction{})
 }

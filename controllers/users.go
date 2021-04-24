@@ -1,14 +1,14 @@
 package controllers
 
 import (
-	"alta-store/lib/database"
+	"alta-store/models"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
 
 func GetUserControllers(c echo.Context) error {
-	users, e := database.GetUsers()
+	users, e := models.GetUsers()
 
 	if e != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
@@ -20,7 +20,7 @@ func GetUserControllers(c echo.Context) error {
 }
 
 func CreateUserController(c echo.Context) error {
-	user, e := database.CreateUsers(c)
+	user, e := models.CreateUsers(c)
 
 	if e != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
