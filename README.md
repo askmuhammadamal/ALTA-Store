@@ -1,5 +1,65 @@
 # API Documentation
 
+## Authentication
+
+All API must use this authentication
+
+Request :
+
+- Header :
+  - Authorization : "Bearer | token"
+
+Except :
+
+- Search Products
+- List Products
+- Get Products
+- List Categories
+- Get Categories
+- Create User
+- Login User
+
+---
+
+## Login User
+
+<details>
+  <summary>Example</summary>
+
+Request :
+
+- Method : POST
+- Endpoint : `/api/login`
+- Header :
+
+  - Accept: application/json
+  - Content-Type: application/json
+
+- Body :
+
+```json
+{
+  "email": "string",
+  "password": "string"
+}
+```
+
+Response :
+
+```json
+{
+  "code": "number",
+  "status": "string",
+  "data": [
+    {
+      "token": "string"
+    }
+  ]
+}
+```
+
+</details>
+
 ## List Users
 
 <details>
@@ -662,11 +722,13 @@ Response :
       "items": [
         {
           "product": "string",
-          "quantity": "integer"
+          "quantity": "integer",
+          "price": "integer"
         },
         {
           "product": "string",
-          "quantity": "integer"
+          "quantity": "integer",
+          "price": "integer"
         }
       ]
     },
@@ -680,11 +742,13 @@ Response :
       "items": [
         {
           "product": "string",
-          "quantity": "integer"
+          "quantity": "integer",
+          "price": "integer"
         },
         {
           "product": "string",
-          "quantity": "integer"
+          "quantity": "integer",
+          "price": "integer"
         }
       ]
     }
@@ -722,23 +786,25 @@ Response :
   "code": "number",
   "status": "string",
   "data": {
-      "id": "string, unique",
-      "user": "string",
-      "date": "date",
-      "total": "integer",
-      "shipping": "integer",
-      "status": "string",
-      "items": [
-          {
-              "product": "string",
-              "quantity": "integer"
-          },
-          {
-              "product": "string",
-              "quantity": "integer"
-          }
-      ]
-    }
+    "id": "string, unique",
+    "user": "string",
+    "date": "date",
+    "total": "integer",
+    "shipping": "integer",
+    "status": "string",
+    "items": [
+      {
+        "product": "string",
+        "quantity": "integer",
+        "price": "integer"
+      },
+      {
+        "product": "string",
+        "quantity": "integer",
+        "price": "integer"
+      }
+    ]
+  }
 }
 ```
 
@@ -763,23 +829,25 @@ Response :
   "code": "number",
   "status": "string",
   "data": {
-      "id": "string, unique",
-      "user": "string",
-      "date": "date",
-      "total": "integer",
-      "shipping": "integer",
-      "status": "string",
-      "items": [
-          {
-              "product": "string",
-              "quantity": "integer"
-          },
-          {
-              "product": "string",
-              "quantity": "integer"
-          }
-      ]
-    }
+    "id": "string, unique",
+    "user": "string",
+    "date": "date",
+    "total": "integer",
+    "shipping": "integer",
+    "status": "string",
+    "items": [
+      {
+        "product": "string",
+        "quantity": "integer",
+        "price": "integer"
+      },
+      {
+        "product": "string",
+        "quantity": "integer",
+        "price": "integer"
+      }
+    ]
+  }
 }
 ```
 
@@ -813,23 +881,25 @@ Response :
   "code": "number",
   "status": "string",
   "data": {
-      "id": "string, unique",
-      "user": "string",
-      "date": "date",
-      "total": "integer",
-      "shipping": "integer",
-      "status": "string",
-      "items": [
-          {
-              "product": "string",
-              "quantity": "integer"
-          },
-          {
-              "product": "string",
-              "quantity": "integer"
-          }
-      ]
-    }
+    "id": "string, unique",
+    "user": "string",
+    "date": "date",
+    "total": "integer",
+    "shipping": "integer",
+    "status": "string",
+    "items": [
+      {
+        "product": "string",
+        "quantity": "integer",
+        "price": "integer"
+      },
+      {
+        "product": "string",
+        "quantity": "integer",
+        "price": "integer"
+      }
+    ]
+  }
 }
 ```
 
