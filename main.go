@@ -1,13 +1,13 @@
 package main
 
 import (
-	"alta-store/configs"
+	"alta-store/config"
 	"alta-store/lib/database"
-	"github.com/labstack/echo/v4"
+	"alta-store/routes"
 )
 
 func main() {
 	database.Connection()
-	e := echo.New()
+	e := routes.New()
 	e.Logger.Fatal(e.Start(config.Env("APP_PORT")))
 }

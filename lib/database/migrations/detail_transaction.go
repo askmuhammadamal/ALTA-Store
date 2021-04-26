@@ -4,7 +4,9 @@ import "gorm.io/gorm"
 
 type DetailTransaction struct {
 	gorm.Model
-	IdTransaction 	int	`json:"id_transaction" form:"id_transaction" gorm:"type:int(10);index;not null"`
-	IdProduct 		int	`json:"id_product" form:"id_product" gorm:"type:int(10);index;not null"`
-	Quantity 		int	`json:"quantity" form:"quantity" gorm:"type:int(10);not null"`
+	TransactionID int         `json:"transactionId" form:"transactionId" gorm:"type:int(10);index;not null"`
+	Transaction   Transaction `json:"transaction" form:"transaction"`
+	ProductID     int         `json:"productId" form:"productId" gorm:"type:int(10);index;not null"`
+	Product       Product     `json:"product" form:"product"`
+	Quantity      int         `json:"quantity" form:"quantity" gorm:"type:int(10);not null"`
 }
