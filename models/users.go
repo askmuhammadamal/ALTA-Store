@@ -39,30 +39,16 @@ func CreateUsers(c echo.Context) (interface{}, error) {
 }
 
 func LoginUsers(user *migrations.User) (interface{}, error) {
-	userRespon := migrations.UserRespon{}
 	var err error
+	token := migrations.Token{}
 	if err = database.DB.Where("email = ? AND password = ?", user.Email, user.Password).First(user).Error; err != nil {
 		return nil, err
 	}
 
-	userRespon.ID = user.ID
-	userRespon.CreatedAt = user.CreatedAt
-	userRespon.UpdatedAt = user.UpdatedAt
-	userRespon.DeletedAt = user.DeletedAt
-	userRespon.Email = user.Email
-	userRespon.Password = user.Password
-	userRespon.FullName = user.FullName
-	userRespon.PhoneNumber = user.PhoneNumber
-	userRespon.Gender = user.Gender
-	userRespon.DateOfBirth = user.DateOfBirth
-	userRespon.District = user.District
-	userRespon.SubDistrict = user.SubDistrict
-	userRespon.Address = user.Address
-	userRespon.Role = user.Role
-	userRespon.Token, err = middlewares.CreateToken(int(userRespon.ID))
+	token.Data, err = middlewares.CreateToken(int(user.ID))
 	if err != nil {
 		return nil, err
 	}
 
-	return userRespon, nil
+	return token, nil
 }

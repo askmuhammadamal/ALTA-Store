@@ -23,20 +23,6 @@ type User struct {
 	Role        string         `json:"role" form:"role" gorm:"type:enum('user', 'admin');default:user;not null"`
 }
 
-type UserRespon struct {
-	ID          uint           `json:"id" form:"id"`
-	CreatedAt   time.Time      `json:"createdAt" form:"createdAt"`
-	UpdatedAt   time.Time      `json:"updatedAt" form:"updatedAt"`
-	DeletedAt   gorm.DeletedAt `json:"deletedAt" form:"deletedAt"`
-	Email       string         `json:"email" form:"email"`
-	Password    string         `json:"password" form:"password"`
-	FullName    string         `json:"fullName" form:"fullName"`
-	PhoneNumber string         `json:"phoneNumber" form:"phoneNumber"`
-	Gender      string         `json:"gender" form:"gender"`
-	DateOfBirth time.Time      `json:"dateOfBirth" form:"dateOfBirth"`
-	District    string         `json:"district" form:"district"`
-	SubDistrict string         `json:"subDistrict" form:"subDistrict"`
-	Address     string         `json:"address" form:"address"`
-	Role        string         `json:"role" form:"role"`
-	Token       string         `json:"token" form:"token"`
+type Token struct {
+	Data string `json:"data" form:"data"`
 }
