@@ -1,5 +1,7 @@
-# API Documentation
+# ERD Diagram
+![ALTA Store ERD](https://lh3.googleusercontent.com/pw/ACtC-3cQC-2bhe6u4YoVAkGKpzkiSb1lfT8tv-SCHJnJVamgQ6bxODFNbVRSr0V5D-KcpxhRASnVzXuSeqtmAHJHVssTjHiECZn9NhrRvKfpX85KHmcvd7_3DZbpcCmJOi4Jt-0R8nbnDjjgUBMmRDD75EGW=w1491-h621-no)
 
+# API Documentation
 ## Authentication
 
 All API must use this authentication
@@ -892,6 +894,110 @@ Request :
 {
   "product": "string",
   "quantity": "integer"
+}
+```
+
+Response :
+
+```json
+{
+  "code": "number",
+  "status": "string",
+  "data": {
+    "id": "string, unique",
+    "user": "string",
+    "date": "date",
+    "total": "integer",
+    "shipping": "integer",
+    "status": "string",
+    "items": [
+      {
+        "product": "string",
+        "quantity": "integer",
+        "price": "integer"
+      },
+      {
+        "product": "string",
+        "quantity": "integer",
+        "price": "integer"
+      }
+    ]
+  }
+}
+```
+
+</details>
+
+
+## Chekout Transaction
+
+<details>
+  <summary>Example</summary>
+
+Request :
+
+- Method : PUT
+- Endpoint : `/api/transactions/{id_transaction}`
+- Header :
+  - Content-Type: application/json
+  - Accept: application/json
+- Body :
+
+```json
+{
+  "status": "string"
+}
+```
+
+Response :
+
+```json
+{
+  "code": "number",
+  "status": "string",
+  "data": {
+    "id": "string, unique",
+    "user": "string",
+    "date": "date",
+    "total": "integer",
+    "shipping": "integer",
+    "status": "string",
+    "items": [
+      {
+        "product": "string",
+        "quantity": "integer",
+        "price": "integer"
+      },
+      {
+        "product": "string",
+        "quantity": "integer",
+        "price": "integer"
+      }
+    ]
+  }
+}
+```
+
+</details>
+
+
+## Paid Transaction
+
+<details>
+  <summary>Example</summary>
+
+Request :
+
+- Method : PUT
+- Endpoint : `/api/transactions/{id_transaction}`
+- Header :
+  - Content-Type: application/json
+  - Accept: application/json
+- Body :
+
+```json
+{
+  "status": "string"
 }
 ```
 
