@@ -83,7 +83,7 @@ func LoginUsersController(c echo.Context) error {
 	user := migrations.User{}
 	c.Bind(&user)
 
-	token, e := models.LoginUsers(&user)
+	token, e := models.LoginUsers(&user, user.Password)
 	if e != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
 	}
@@ -101,6 +101,12 @@ func UpdateUserController(c echo.Context) error {
 	// binding data
 	user := migrations.User{}
 	c.Bind(&user)
+
+	hashPassword, errHash := models.Hash(user.Password)
+	if errHash != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, errHash.Error())
+	}
+	user.Password = string(hashPassword)
 
 	err := database.DB.Model(&user).Where("id = ?", id).Take(&migrations.User{}).UpdateColumns(
 		map[string]interface{}{
