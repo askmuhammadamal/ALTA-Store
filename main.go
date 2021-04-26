@@ -8,8 +8,6 @@ import (
 
 func main() {
 	database.Connection()
-
-	e := routes.Init()
-
+	e := routes.New()
 	e.Logger.Fatal(e.Start(config.Env("APP_PORT")))
 }
