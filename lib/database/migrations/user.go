@@ -24,5 +24,5 @@ type User struct {
 }
 
 type Token struct {
-	Data string `json:"data" form:"data"`
+	Data string `json:"token" form:"token"`
 }

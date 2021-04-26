@@ -53,7 +53,7 @@ func GetUserDetailControllers(c echo.Context) error {
 			"code":    http.StatusOK,
 			"message": "success get user detail",
 			"status":  "success",
-			"users":   users,
+			"data":    users,
 		})
 	}
 
@@ -75,7 +75,7 @@ func CreateUserController(c echo.Context) error {
 		"code":    http.StatusOK,
 		"message": "success create new user",
 		"status":  "success",
-		"user":    user,
+		"data":    user,
 	})
 }
 
@@ -91,7 +91,7 @@ func LoginUsersController(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"code":   http.StatusOK,
 		"status": "success",
-		"token":  token,
+		"data":   token,
 	})
 }
 
@@ -130,7 +130,7 @@ func UpdateUserController(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"code":   http.StatusOK,
 		"status": "success",
-		"user":   user,
+		"data":   user,
 	})
 }
 

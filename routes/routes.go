@@ -15,5 +15,11 @@ func New() *echo.Echo {
 	e.POST("/login", controllers.LoginUsersController)
 	e.PUT("/users/:id", controllers.UpdateUserController)
 	e.DELETE("/users/:id", controllers.DeleteUserController)
+
+	e.GET("/categories", controllers.GetCategories)
+	e.GET("/categories/:id", controllers.GetCategoryDetail)
+	e.POST("/categories", controllers.CreateCategory)
+	e.PUT("/categories/:id", controllers.UpdateCategory)
+	e.DELETE("/categories/:id", controllers.DeleteCategory)
 	return e
 }
