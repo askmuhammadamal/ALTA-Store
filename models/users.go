@@ -1,8 +1,8 @@
 package models
 
 import (
-	"alta-store/lib/database"
-	"alta-store/lib/database/migrations"
+	"github.com/askmuhammadamal/alta-store/lib/database"
+	"github.com/askmuhammadamal/alta-store/lib/database/migrations"
 	"github.com/labstack/echo/v4"
 )
 

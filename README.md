@@ -306,7 +306,10 @@ Response :
       "description": "string",
       "stock": "integer",
       "price": "integer",
-      "category": "string",
+      "category": {
+        "id": "integer",
+        "name": "string"
+      },
       "created_at": "date",
       "updated_at": "date"
     },
@@ -316,7 +319,10 @@ Response :
       "description": "string",
       "stock": "integer",
       "price": "integer",
-      "category": "string",
+      "category": {
+        "id": "integer",
+        "name": "string"
+      },
       "created_at": "date",
       "updated_at": "date"
     }
@@ -353,7 +359,10 @@ Response :
       "description": "string",
       "stock": "integer",
       "price": "integer",
-      "category": "string",
+      "category": {
+        "id": "integer",
+        "name": "string"
+      },
       "created_at": "date",
       "updated_at": "date"
     },
@@ -363,7 +372,10 @@ Response :
       "description": "string",
       "stock": "integer",
       "price": "integer",
-      "category": "string",
+      "category": {
+        "id": "integer",
+        "name": "string"
+      },
       "created_at": "date",
       "updated_at": "date"
     }
@@ -393,7 +405,7 @@ Request :
   "description": "string",
   "stock": "integer",
   "price": "integer",
-  "category": "string"
+  "category_id": "integer"
 }
 ```
 
@@ -409,7 +421,10 @@ Response :
     "description": "string",
     "stock": "integer",
     "price": "integer",
-    "category": "string",
+    "category": {
+      "id": "integer",
+      "name": "string"
+    },
     "created_at": "date",
     "updated_at": "date"
   }
@@ -442,7 +457,10 @@ Response :
     "description": "string",
     "stock": "integer",
     "price": "integer",
-    "category": "string",
+    "category": {
+      "id": "integer",
+      "name": "string"
+    },
     "created_at": "date",
     "updated_at": "date"
   }
@@ -471,7 +489,7 @@ Request :
   "description": "string",
   "stock": "integer",
   "price": "integer",
-  "category": "string"
+  "category_id": "integer"
 }
 ```
 
@@ -487,7 +505,10 @@ Response :
     "description": "string",
     "stock": "integer",
     "price": "integer",
-    "category": "string",
+    "category": {
+      "id": "integer",
+      "name": "string"
+    },
     "created_at": "date",
     "updated_at": "date"
   }

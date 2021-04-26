@@ -1,9 +1,10 @@
 package database
 
 import (
-	"alta-store/config"
-	"alta-store/lib/database/migrations"
 	"fmt"
+
+	"github.com/askmuhammadamal/alta-store/config"
+	"github.com/askmuhammadamal/alta-store/lib/database/migrations"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -26,5 +27,5 @@ func Connection() {
 }
 
 func InitMigrate() {
-	DB.AutoMigrate(&migrations.User{}, &migrations.Product{}, &migrations.Category{}, &migrations.Transaction{}, &migrations.DetailTransaction{})
+	DB.AutoMigrate(&migrations.User{}, &migrations.Product{}, &migrations.Category{}, &migrations.Transaction{}, &migrations.TransactionDetail{})
 }
