@@ -28,5 +28,11 @@ func New() *echo.Echo {
 	e.POST("/categories", controllers.CreateCategory)
 	e.PUT("/categories/:id", controllers.UpdateCategory)
 	e.DELETE("/categories/:id", controllers.DeleteCategory)
+
+	// Transaction Routes
+	jwtGroup.POST("/transactions", controllers.CreateTransactionController)
+	jwtGroup.GET("/transactions", controllers.GetTransactionController)
+	jwtGroup.GET("/transactions/:id", controllers.GetTransactionDetailController)
+
 	return e
 }
