@@ -9,6 +9,22 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+func LoginUserController(c echo.Context) error {
+	user := migrations.User{}
+	c.Bind(&user)
+
+	token, e := models.LoginUsers(&user, user.Password)
+	if e != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"code":   http.StatusOK,
+		"status": "success",
+		"data":   token,
+	})
+}
+
 func GetUserController(c echo.Context) error {
 	users, err := models.GetUsers()
 
@@ -21,7 +37,7 @@ func GetUserController(c echo.Context) error {
 			"code":    http.StatusOK,
 			"message": "success get user",
 			"status":  "success",
-			"users":   users,
+			"data":    users,
 		})
 	}
 
@@ -74,22 +90,6 @@ func CreateUserController(c echo.Context) error {
 		"message": "success create new user",
 		"status":  "success",
 		"data":    user,
-	})
-}
-
-func LoginUserController(c echo.Context) error {
-	user := migrations.User{}
-	c.Bind(&user)
-
-	token, e := models.LoginUsers(&user, user.Password)
-	if e != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
-	}
-
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"code":   http.StatusOK,
-		"status": "success",
-		"data":   token,
 	})
 }
 
