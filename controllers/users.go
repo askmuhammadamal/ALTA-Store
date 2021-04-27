@@ -3,9 +3,7 @@ package controllers
 import (
 	"net/http"
 	"strconv"
-	"time"
 
-	"github.com/askmuhammadamal/alta-store/lib/database"
 	"github.com/askmuhammadamal/alta-store/lib/database/migrations"
 	"github.com/askmuhammadamal/alta-store/models"
 	"github.com/labstack/echo/v4"
@@ -35,7 +33,7 @@ func GetUserController(c echo.Context) error {
 
 }
 
-func GetUserDetailControllers(c echo.Context) error {
+func GetUserDetailController(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 
 	if err != nil {
@@ -79,7 +77,7 @@ func CreateUserController(c echo.Context) error {
 	})
 }
 
-func LoginUsersController(c echo.Context) error {
+func LoginUserController(c echo.Context) error {
 	user := migrations.User{}
 	c.Bind(&user)
 
@@ -96,32 +94,7 @@ func LoginUsersController(c echo.Context) error {
 }
 
 func UpdateUserController(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
-
-	// binding data
-	user := migrations.User{}
-	c.Bind(&user)
-
-	hashPassword, errHash := models.Hash(user.Password)
-	if errHash != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, errHash.Error())
-	}
-	user.Password = string(hashPassword)
-
-	err := database.DB.Model(&user).Where("id = ?", id).Take(&migrations.User{}).UpdateColumns(
-		map[string]interface{}{
-			"full_name":     user.FullName,
-			"phone_number":  user.PhoneNumber,
-			"email":         user.Email,
-			"password":      user.Password,
-			"gender":        user.Gender,
-			"date_of_birth": user.DateOfBirth,
-			"district":      user.District,
-			"sub_district":  user.SubDistrict,
-			"address":       user.Address,
-			"updated_at":    time.Now(),
-		},
-	).Error
+	user, err := models.EditUser(c)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
@@ -137,11 +110,9 @@ func UpdateUserController(c echo.Context) error {
 func DeleteUserController(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	// binding data
-	user := migrations.User{}
-	c.Bind(&user)
+	err := models.DeleteUser((id))
 
-	if err := database.DB.Delete(&user, id).Error; err != nil {
+	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
