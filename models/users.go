@@ -21,6 +21,40 @@ func VerifyPassword(hashedPassword, password string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 }
 
+func LoginUsers(user *migrations.User, password string) (interface{}, error) {
+	var err error
+	token := migrations.Token{}
+	if err = database.DB.Where("email = ?", user.Email).First(user).Error; err != nil {
+		return nil, errors.New("incorrect email or password")
+	}
+
+	err = VerifyPassword(user.Password, password)
+	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword {
+		return nil, errors.New("incorrect email or password")
+	}
+
+	token.Data, err = middlewares.CreateToken(int(user.ID))
+	if err != nil {
+		return nil, err
+	}
+
+	return token, nil
+}
+
+func validateEmail(email string, userId int) error {
+	user := migrations.User{}
+	if userId > 0 {
+		if err := database.DB.Where("email = ? AND id <> ?", email, userId).First(&user).Error; err != nil {
+			return nil
+		}
+	} else {
+		if err := database.DB.Where("email = ?", email).First(&user).Error; err != nil {
+			return nil
+		}
+	}
+	return errors.New("email already exists")
+}
+
 func GetUsers() ([]migrations.User, error) {
 	var users []migrations.User
 
@@ -59,36 +93,6 @@ func CreateUsers(c echo.Context) (interface{}, error) {
 	}
 
 	return user, nil
-}
-
-func LoginUsers(user *migrations.User, password string) (interface{}, error) {
-	var err error
-	token := migrations.Token{}
-	if err = database.DB.Where("email = ?", user.Email).First(user).Error; err != nil {
-		return nil, errors.New("incorrect email or password")
-	}
-
-	err = VerifyPassword(user.Password, password)
-	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword {
-		return nil, errors.New("incorrect email or password")
-	}
-
-	token.Data, err = middlewares.CreateToken(int(user.ID))
-	if err != nil {
-		return nil, err
-	}
-
-	return token, nil
-}
-
-func DeleteUser(userId int) error {
-	// binding data
-	user := migrations.User{}
-
-	if err := database.DB.Delete(&user, userId).Error; err != nil {
-		return err
-	}
-	return nil
 }
 
 func EditUser(c echo.Context) (interface{}, error) {
@@ -135,16 +139,12 @@ func EditUser(c echo.Context) (interface{}, error) {
 	return user, nil
 }
 
-func validateEmail(email string, userId int) error {
+func DeleteUser(userId int) error {
+	// binding data
 	user := migrations.User{}
-	if userId > 0 {
-		if err := database.DB.Where("email = ? AND id <> ?", email, userId).First(&user).Error; err != nil {
-			return nil
-		}
-	} else {
-		if err := database.DB.Where("email = ?", email).First(&user).Error; err != nil {
-			return nil
-		}
+
+	if err := database.DB.Delete(&user, userId).Error; err != nil {
+		return err
 	}
-	return errors.New("email already exists")
+	return nil
 }
