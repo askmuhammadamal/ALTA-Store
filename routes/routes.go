@@ -24,18 +24,18 @@ func Init() *echo.Echo {
 	jwtGroup.DELETE("/users/:id", controllers.DeleteUserController)
 
 	// Category Routes
-	e.GET("/categories", controllers.GetCategories)
-	e.GET("/categories/:id", controllers.GetCategoryDetail)
-	jwtGroup.POST("/categories", controllers.CreateCategory)
-	jwtGroup.PUT("/categories/:id", controllers.UpdateCategory)
-	jwtGroup.DELETE("/categories/:id", controllers.DeleteCategory)
+	e.GET("/categories", controllers.GetCategoriesContoller)
+	e.GET("/categories/:id", controllers.GetCategoryDetailContoller)
+	jwtGroup.POST("/categories", controllers.CreateCategoryContoller)
+	jwtGroup.PUT("/categories/:id", controllers.UpdateCategoryContoller)
+	jwtGroup.DELETE("/categories/:id", controllers.DeleteCategoryContoller)
 
 	// Product Routes
-	e.GET("/products", controllers.GetProducts)
-	e.GET("/products/:id", controllers.GetProductDetail)
-	jwtGroup.POST("/products", controllers.CreateProduct)
-	jwtGroup.PUT("/products/:id", controllers.UpdateProduct)
-	jwtGroup.DELETE("/products/:id", controllers.DeleteProduct)
+	e.GET("/products", controllers.GetProductsContoller)
+	e.GET("/products/:id", controllers.GetProductDetailContoller)
+	jwtGroup.POST("/products", controllers.CreateProductContoller)
+	jwtGroup.PUT("/products/:id", controllers.UpdateProductContoller)
+	jwtGroup.DELETE("/products/:id", controllers.DeleteProductContoller)
 
 	// Transaction Routes
 	jwtGroup.POST("/transactions", controllers.CreateTransactionController)

@@ -1,0 +1,40 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_HOST: localhost
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: alta_store
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - goinvest-volume:/var/lib/mysql
+    ports:
+      - 3306:3306
+  adminer:
+    image: adminer:latest
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+    depends_on:
+      - mysql
+    ports:
+      - 8080:8080
+  backend:
+    image: alta_store:1.0.0
+    depends_on:
+      - mysql
+    environment:
+      WAIT_HOSTS: mysql:3306
+    ports:
+      - 9000:9000
+  # frontend:
+  #   image: alta_store_react:1.0.0
+  #   depends_on:
+  #     - backend
+  #   ports:
+  #     - 80:80
+
+volumes:
+  goinvest-volume:

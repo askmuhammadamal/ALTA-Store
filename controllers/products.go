@@ -8,7 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func GetProducts(c echo.Context) error {
+func GetProductsContoller(c echo.Context) error {
 	products, err := models.GetProducts()
 
 	if err != nil {
@@ -32,7 +32,7 @@ func GetProducts(c echo.Context) error {
 
 }
 
-func GetProductDetail(c echo.Context) error {
+func GetProductDetailContoller(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 
 	if err != nil {
@@ -61,7 +61,7 @@ func GetProductDetail(c echo.Context) error {
 	})
 }
 
-func CreateProduct(c echo.Context) error {
+func CreateProductContoller(c echo.Context) error {
 	product, e := models.CreateProduct(c)
 
 	if e != nil {
@@ -76,7 +76,7 @@ func CreateProduct(c echo.Context) error {
 	})
 }
 
-func UpdateProduct(c echo.Context) error {
+func UpdateProductContoller(c echo.Context) error {
 	product, err := models.UpdateProduct(c)
 
 	if err != nil {
@@ -90,7 +90,7 @@ func UpdateProduct(c echo.Context) error {
 	})
 }
 
-func DeleteProduct(c echo.Context) error {
+func DeleteProductContoller(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	err := models.DeleteProduct((id))

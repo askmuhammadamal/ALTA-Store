@@ -3,15 +3,12 @@ package controllers
 import (
 	"net/http"
 	"strconv"
-	"time"
 
-	"github.com/askmuhammadamal/alta-store/lib/database"
-	"github.com/askmuhammadamal/alta-store/lib/database/migrations"
 	"github.com/askmuhammadamal/alta-store/models"
 	"github.com/labstack/echo/v4"
 )
 
-func GetCategories(c echo.Context) error {
+func GetCategoriesContoller(c echo.Context) error {
 	categories, err := models.GetCategories()
 
 	if err != nil {
@@ -34,7 +31,7 @@ func GetCategories(c echo.Context) error {
 	})
 }
 
-func GetCategoryDetail(c echo.Context) error {
+func GetCategoryDetailContoller(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 
 	if err != nil {
@@ -63,7 +60,7 @@ func GetCategoryDetail(c echo.Context) error {
 	})
 }
 
-func CreateCategory(c echo.Context) error {
+func CreateCategoryContoller(c echo.Context) error {
 	category, e := models.CreateCategory(c)
 
 	if e != nil {
@@ -78,19 +75,8 @@ func CreateCategory(c echo.Context) error {
 	})
 }
 
-func UpdateCategory(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
-
-	category := migrations.Category{}
-	c.Bind(&category)
-
-	err := database.DB.Model(&category).Where("id = ?", id).Take(&migrations.Category{}).UpdateColumns(
-		map[string]interface{}{
-			"name":        category.Name,
-			"description": category.Description,
-			"updated_at":  time.Now(),
-		},
-	).Error
+func UpdateCategoryContoller(c echo.Context) error {
+	category, err := models.UpdateCategory(c)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
@@ -103,13 +89,12 @@ func UpdateCategory(c echo.Context) error {
 	})
 }
 
-func DeleteCategory(c echo.Context) error {
+func DeleteCategoryContoller(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	category := migrations.Category{}
-	c.Bind(&category)
+	err := models.DeleteCategory((id))
 
-	if err := database.DB.Delete(&category, id).Error; err != nil {
+	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
