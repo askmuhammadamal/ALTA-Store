@@ -29,6 +29,9 @@ func CreateTransaction(c echo.Context) (interface{}, error) {
 	if err := database.DB.Find(&product, transactionRequest.ProductID).Error; err != nil {
 		return nil, errors.New("product is not found")
 	}
+	if product.ID == 0 {
+		return nil, errors.New("product is not found")
+	}
 
 	database.DB.Where("user_id = ? AND status = 'cart'", userId).First(&transaction)
 	// if err := database.DB.Where("user_id = ? AND status = 'cart'", userId).First(&transaction).Error; err != nil {

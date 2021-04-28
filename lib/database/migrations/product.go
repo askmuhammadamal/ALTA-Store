@@ -13,7 +13,7 @@ type Product struct {
 	DeletedAt   gorm.DeletedAt `gorm:"index" json:"deletedAt" form:"deletedAt"`
 	Name        string         `json:"name" form:"name" gorm:"size:255;not null"`
 	Description string         `json:"description" form:"description" gorm:"not null"`
-	Stock       int            `json:"stock" from:"stock" gorm:"type:int(10);not null"`
+	Stock       int            `json:"stock" form:"stock" gorm:"type:int(10);not null"`
 	Price       float64        `json:"price" form:"price" gorm:"type:double;not null"`
 	Category    int            `json:"category" form:"category" gorm:"type:int(10);index;not null"`
 }
