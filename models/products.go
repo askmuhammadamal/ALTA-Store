@@ -48,11 +48,11 @@ func UpdateProduct(c echo.Context) (interface{}, error) {
 	productDB := migrations.Product{}
 	err := database.DB.Model(&product).Where("id = ?", id).Take(&productDB).UpdateColumns(
 		map[string]interface{}{
-			"name":        productDB.Name,
-			"description": productDB.Description,
-			"stock":       productDB.Stock,
-			"price":       productDB.Price,
-			"category":    productDB.Category,
+			"name":        product.Name,
+			"description": product.Description,
+			"stock":       product.Stock,
+			"price":       product.Price,
+			"category_id": product.CategoryID,
 			"updated_at":  time.Now(),
 		},
 	).Error
