@@ -884,7 +884,7 @@ Response :
 Request :
 
 - Method : POST
-- Endpoint : `/api/transactions/{id_transaction}`
+- Endpoint : `/api/transactions`
 - Header :
   - Content-Type: application/json
   - Accept: application/json
@@ -937,7 +937,7 @@ Response :
 Request :
 
 - Method : PUT
-- Endpoint : `/api/transactions/{id_transaction}`
+- Endpoint : `/api/transactions`
 - Header :
   - Content-Type: application/json
   - Accept: application/json
@@ -989,7 +989,7 @@ Response :
 Request :
 
 - Method : PUT
-- Endpoint : `/api/transactions/{id_transaction}`
+- Endpoint : `/api/transactions`
 - Header :
   - Content-Type: application/json
   - Accept: application/json
@@ -1040,7 +1040,7 @@ Response :
 Request :
 
 - Method : DELETE
-- Endpoint : `/api/transactions/{id_transaction}`
+- Endpoint : `/api/transactions`
 - Header :
   - Content-Type: application/json
   - Accept: application/json
