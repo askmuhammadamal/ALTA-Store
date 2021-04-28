@@ -883,7 +883,7 @@ Response :
 
 Request :
 
-- Method : PUT
+- Method : POST
 - Endpoint : `/api/transactions/{id_transaction}`
 - Header :
   - Content-Type: application/json
@@ -1042,7 +1042,16 @@ Request :
 - Method : DELETE
 - Endpoint : `/api/transactions/{id_transaction}`
 - Header :
+  - Content-Type: application/json
   - Accept: application/json
+- Body :
+
+```json
+{
+  "product": "string",
+  "quantity": "integer"
+}
+```
 
 Response :
 
