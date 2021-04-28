@@ -9,12 +9,42 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func GetProducts() ([]migrations.Product, error) {
+func GetProducts(c echo.Context) ([]migrations.Product, error) {
 	var products []migrations.Product
+	name := c.QueryParam("name")
+	categoryName := c.QueryParam("categoryName")
+	categoryId := c.QueryParam("categoryId")
 
-	if e := database.DB.Find(&products).Error; e != nil {
-		return nil, e
+	if name != "" {
+		if e := database.DB.Model(&migrations.Product{}).Where("name LIKE ?", "%"+name+"%").Find(&products).Error; e != nil {
+			return nil, e
+		}
+	} else if categoryName != "" {
+		var category migrations.Category
+		if e := database.DB.Model(&migrations.Category{}).Where("name LIKE ?", "%"+categoryName+"%").First(&category).Error; e != nil {
+			return nil, e
+		}
+		if category.ID != 0 {
+			if e := database.DB.Model(&migrations.Product{}).Where("category_id = ?", category.ID).Find(&products).Error; e != nil {
+				return nil, e
+			}
+		}
+	} else if categoryId != "" {
+		var category migrations.Category
+		if e := database.DB.Model(&migrations.Category{}).Where("id = ?", categoryId).First(&category).Error; e != nil {
+			return nil, e
+		}
+		if category.ID != 0 {
+			if e := database.DB.Model(&migrations.Product{}).Where("category_id = ?", category.ID).Find(&products).Error; e != nil {
+				return nil, e
+			}
+		}
+	} else {
+		if e := database.DB.Find(&products).Error; e != nil {
+			return nil, e
+		}
 	}
+
 	return getCategoryData(products)
 }
 

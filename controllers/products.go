@@ -9,7 +9,7 @@ import (
 )
 
 func GetProductsContoller(c echo.Context) error {
-	products, err := models.GetProducts()
+	products, err := models.GetProducts(c)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())

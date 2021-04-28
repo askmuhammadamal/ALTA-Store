@@ -49,8 +49,8 @@ func UpdateCategory(c echo.Context) (interface{}, error) {
 	categoryDB := migrations.Category{}
 	err := database.DB.Model(&category).Where("id = ?", id).Take(&categoryDB).UpdateColumns(
 		map[string]interface{}{
-			"name":        categoryDB.Name,
-			"description": categoryDB.Description,
+			"name":        category.Name,
+			"description": category.Description,
 			"updated_at":  time.Now(),
 		},
 	).Error
