@@ -24,6 +24,10 @@ type TransactionRequest struct {
 	Quantity  int64 `json:"quantity" form:"quantity"`
 }
 
+type UpdateStatusRequest struct {
+	Status string `json:"status" form:"status"`
+}
+
 type TransactionResponse struct {
 	ID              uint                        `json:"id" form:"id"`
 	CreatedAt       time.Time                   `json:"createdAt" form:"createdAt"`

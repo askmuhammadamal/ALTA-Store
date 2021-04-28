@@ -15,7 +15,7 @@ func GetProducts() ([]migrations.Product, error) {
 	if e := database.DB.Find(&products).Error; e != nil {
 		return nil, e
 	}
-	return products, nil
+	return getCategoryData(products)
 }
 
 func GetProductDetail(id int) ([]migrations.Product, error) {
@@ -24,7 +24,7 @@ func GetProductDetail(id int) ([]migrations.Product, error) {
 	if err := database.DB.Find(&product, id).Error; err != nil {
 		return nil, err
 	}
-	return product, nil
+	return getCategoryData(product)
 }
 
 func CreateProduct(c echo.Context) (interface{}, error) {
@@ -36,7 +36,7 @@ func CreateProduct(c echo.Context) (interface{}, error) {
 		return nil, e
 	}
 
-	return product, nil
+	return getCategoryData([]migrations.Product{product})
 }
 
 func UpdateProduct(c echo.Context) (interface{}, error) {
@@ -64,7 +64,7 @@ func UpdateProduct(c echo.Context) (interface{}, error) {
 		return nil, err
 	}
 
-	return product, nil
+	return getCategoryData([]migrations.Product{product})
 }
 
 func DeleteProduct(id int) error {
@@ -74,4 +74,17 @@ func DeleteProduct(id int) error {
 		return err
 	}
 	return nil
+}
+
+func getCategoryData(products []migrations.Product) ([]migrations.Product, error) {
+	if len(products) > 0 {
+		for i := range products {
+			err := database.DB.Model(&migrations.Category{}).Where("id = ?", products[i].CategoryID).Take(&products[i].Category).Error
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
+
+	return products, nil
 }

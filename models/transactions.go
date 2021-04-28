@@ -34,15 +34,12 @@ func CreateTransaction(c echo.Context) (interface{}, error) {
 	}
 
 	database.DB.Where("user_id = ? AND status = 'cart'", userId).First(&transaction)
-	// if err := database.DB.Where("user_id = ? AND status = 'cart'", userId).First(&transaction).Error; err != nil {
-	// 	return nil, err
-	// }
 
 	if transaction.UserID == 0 {
 		transaction.User = user
 		transaction.UserID = user.ID
 		transaction.TransactionDate = time.Now()
-		transaction.Shipping = 0
+		transaction.Shipping = 10000
 		transaction.Status = "cart"
 	}
 	transaction.Total += product.Price * float64(transactionRequest.Quantity)
@@ -52,9 +49,6 @@ func CreateTransaction(c echo.Context) (interface{}, error) {
 	}
 
 	database.DB.Where("transaction_id = ? AND product_id = ?", transaction.ID, product.ID).First(&transactionDetail)
-	// if err := database.DB.Where("transaction_id = ? AND product_id = ?", transaction.ID, product.ID).First(&transactionDetail).Error; err != nil {
-	// 	return nil, err
-	// }
 
 	if transactionDetail.ID == 0 {
 		transactionDetail.TransactionID = int(transaction.ID)
@@ -99,6 +93,111 @@ func GetTransaction(transactionId int) ([]migrations.TransactionResponse, error)
 	}
 
 	return getDetailData(transactions)
+}
+
+func EditTransaction(c echo.Context) (interface{}, error) {
+
+	user := migrations.User{}
+	transaction := migrations.Transaction{}
+	updateStatusRequest := migrations.UpdateStatusRequest{}
+	c.Bind(&updateStatusRequest)
+
+	userId := middlewares.ExtractTokenUserId(c)
+	if userId == 0 {
+		return nil, errors.New("user is not found")
+	}
+	if err := database.DB.Find(&user, userId).Error; err != nil {
+		return nil, errors.New("user is not found")
+	}
+
+	if updateStatusRequest.Status == "checkout" {
+		database.DB.Where("user_id = ? AND status = 'cart'", userId).First(&transaction)
+
+		if transaction.UserID == 0 {
+			return nil, errors.New("cart is empty")
+		}
+		transaction.Status = "checkout"
+	} else if updateStatusRequest.Status == "paid" {
+		database.DB.Where("user_id = ? AND status = 'checkout'", userId).First(&transaction)
+
+		if transaction.UserID == 0 {
+			return nil, errors.New("checkout transaction is not found")
+		}
+		transaction.Status = "paid"
+	}
+
+	if err := database.DB.Save(&transaction).Error; err != nil {
+		return nil, err
+	}
+
+	return getDetailData([]migrations.Transaction{transaction})
+}
+
+func DeleteTransaction(c echo.Context) error {
+
+	user := migrations.User{}
+	product := migrations.Product{}
+	transaction := migrations.Transaction{}
+	transactionDetail := migrations.TransactionDetail{}
+	transactionRequest := migrations.TransactionRequest{}
+	c.Bind(&transactionRequest)
+
+	userId := middlewares.ExtractTokenUserId(c)
+	if userId == 0 {
+		return errors.New("user is not found")
+	}
+	if err := database.DB.Find(&user, userId).Error; err != nil {
+		return errors.New("user is not found")
+	}
+	if err := database.DB.Find(&product, transactionRequest.ProductID).Error; err != nil {
+		return errors.New("product is not found")
+	}
+	if product.ID == 0 {
+		return errors.New("product is not found")
+	}
+
+	database.DB.Where("user_id = ? AND status = 'cart'", userId).First(&transaction)
+	if transaction.ID == 0 {
+		return errors.New("cart is empty")
+	}
+
+	database.DB.Where("transaction_id = ? AND product_id = ?", transaction.ID, product.ID).First(&transactionDetail)
+	if transactionDetail.ID == 0 {
+		return errors.New("product is not found in cart")
+	}
+	if transactionRequest.Quantity == 0 || transactionDetail.Quantity < int(transactionRequest.Quantity) {
+		return errors.New("quantity is not valid")
+	}
+
+	// update quantity and stock
+	transactionDetail.Quantity -= int(transactionRequest.Quantity)
+	transaction.Total -= product.Price * float64(transactionRequest.Quantity)
+	product.Stock += int(transactionRequest.Quantity)
+	if err := database.DB.Save(&transactionDetail).Error; err != nil {
+		return err
+	}
+	if err := database.DB.Save(&transaction).Error; err != nil {
+		return err
+	}
+	if err := database.DB.Save(&product).Error; err != nil {
+		return err
+	}
+
+	// delete transaction & transaction detail if necessary
+	if transactionDetail.Quantity <= 0 {
+		if err := database.DB.Delete(&transactionDetail, transactionDetail.ID).Error; err != nil {
+			return err
+		}
+		tempTransDetail := migrations.TransactionDetail{}
+		database.DB.Where("transaction_id = ?", transaction.ID).First(&tempTransDetail)
+		if tempTransDetail.ID == 0 {
+			if err := database.DB.Delete(&transaction, transaction.ID).Error; err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
 }
 
 func getDetailData(transactions []migrations.Transaction) ([]migrations.TransactionResponse, error) {

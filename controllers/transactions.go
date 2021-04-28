@@ -75,3 +75,30 @@ func GetTransactionDetailController(c echo.Context) error {
 		"status":  "fail",
 	})
 }
+
+func UpdateTransactionController(c echo.Context) error {
+	transaction, err := models.EditTransaction(c)
+
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"code":   http.StatusOK,
+		"status": "success",
+		"data":   transaction,
+	})
+}
+
+func DeleteTransactionController(c echo.Context) error {
+	err := models.DeleteTransaction(c)
+
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"code":   http.StatusOK,
+		"status": "success",
+	})
+}

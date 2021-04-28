@@ -41,6 +41,8 @@ func Init() *echo.Echo {
 	jwtGroup.POST("/transactions", controllers.CreateTransactionController)
 	jwtGroup.GET("/transactions", controllers.GetTransactionController)
 	jwtGroup.GET("/transactions/:id", controllers.GetTransactionDetailController)
+	jwtGroup.DELETE("/transactions", controllers.DeleteTransactionController)
+	jwtGroup.PUT("/transactions", controllers.UpdateTransactionController)
 
 	return e
 }
