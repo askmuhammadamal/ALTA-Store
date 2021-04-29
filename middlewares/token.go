@@ -1,8 +1,9 @@
 package middlewares
 
 import (
-	"github.com/askmuhammadamal/alta-store/config"
 	"time"
+
+	"github.com/askmuhammadamal/alta-store/config"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"

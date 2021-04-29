@@ -4,37 +4,42 @@ services:
     image: mysql:latest
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_ROOT_HOST: localhost
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: alta_store
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - goinvest-volume:/var/lib/mysql
+      - ./setup.sql:/docker-entrypoint-initdb.d/setup.sql
     ports:
-      - 3306:3306
-  adminer:
-    image: adminer:latest
-    environment:
-      ADMINER_DEFAULT_SERVER: mysql
-    depends_on:
-      - mysql
-    ports:
-      - 8080:8080
-  backend:
+      - 3306
+
+  # adminer:
+  #   image: adminer:latest
+  #   environment:
+  #     ADMINER_DEFAULT_SERVER: mysql
+  #   depends_on:
+  #     - mysql
+  #   ports:
+  #     - 8080
+
+  api:
     image: alta_store:1.0.0
     depends_on:
       - mysql
+    env_file:
+      - ./.env
     environment:
       WAIT_HOSTS: mysql:3306
     ports:
-      - 9000:9000
+      - 9000
+      
   # frontend:
   #   image: alta_store_react:1.0.0
   #   depends_on:
-  #     - backend
+  #     - api
   #   ports:
-  #     - 80:80
+  #     - 80
 
 volumes:
   goinvest-volume:

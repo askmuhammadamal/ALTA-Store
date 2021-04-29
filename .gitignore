@@ -16,3 +16,6 @@ vendor/
 .idea
 .env
 .DS_Store
+_infra
+docker-compose-dua.yml
+docker-compose-test.yml

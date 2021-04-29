@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/spf13/viper"
 	"log"
+
+	"github.com/spf13/viper"
 )
 
 func Env(key string) string {
@@ -22,4 +23,3 @@ func Env(key string) string {
 
 	return value
 }
-
